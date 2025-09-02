@@ -14,7 +14,7 @@ app.use(express.json());
 connectDB();
 app.use(
   cors({
-    origin: "http://localhost:5173", // frontend URL
+    origin: ["http://localhost:5173","https://url-shortener-peach-zeta.vercel.app"], // frontend URL
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true, // if you're using cookies/auth
   })
