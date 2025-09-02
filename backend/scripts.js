@@ -3,27 +3,34 @@ import { connectDB } from "./lib/db.js";
 import express from "express";
 import router from "./routes/shortenroute.js";
 import cors from "cors";
+
 dotenv.config();
 
 const app = express();
 
-// Middleware
-app.use(express.json());
-
-// Connect Database
-connectDB();
+// ✅ CORS first
 app.use(
   cors({
-    origin: ["http://localhost:5173","https://url-shortener-peach-zeta.vercel.app"], // frontend URL
+    origin: [
+      "http://localhost:5173",
+      "https://url-shortener-peach-zeta.vercel.app",
+      /\.vercel\.app$/  // allow all Vercel preview URLs
+    ],
     methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true, // if you're using cookies/auth
+    credentials: true,
   })
 );
-// Routes
+
+// ✅ Body parser after CORS
+app.use(express.json());
+
+// ✅ Connect DB
+connectDB();
+
+// ✅ Routes
 app.use("/api", router);
 
 const PORT = process.env.PORT || 5000;
-
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
